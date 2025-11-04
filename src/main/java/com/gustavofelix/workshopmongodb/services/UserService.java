@@ -5,8 +5,10 @@ import com.gustavofelix.workshopmongodb.dto.UserDTO;
 import com.gustavofelix.workshopmongodb.repository.UserRepository;
 import com.gustavofelix.workshopmongodb.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,18 @@ public class UserService {
 
     public void insert(User user) {
         userRepository.save(user);
+    }
+
+    public void deleteById(String id) {
+        try {
+            if (userRepository.existsById(id)) {
+                userRepository.deleteById(id);
+            } else {
+                throw new ObjectNotFoundException(id);
+            }
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public User fromDTO(UserDTO userDTO) {
