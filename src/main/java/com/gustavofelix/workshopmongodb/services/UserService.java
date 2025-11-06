@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +40,17 @@ public class UserService {
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public void update(String id, User newUser) {
+        User entity = findById(id);
+        updateData(entity, newUser);
+        userRepository.save(entity);
+    }
+
+    private void updateData(User entity, User newUser) {
+        entity.setName(newUser.getName());
+        entity.setEmail(newUser.getEmail());
     }
 
     public User fromDTO(UserDTO userDTO) {
