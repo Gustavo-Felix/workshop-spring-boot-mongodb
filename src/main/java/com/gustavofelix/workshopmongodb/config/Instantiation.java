@@ -3,6 +3,7 @@ package com.gustavofelix.workshopmongodb.config;
 import com.gustavofelix.workshopmongodb.domain.Post;
 import com.gustavofelix.workshopmongodb.domain.User;
 import com.gustavofelix.workshopmongodb.dto.AuthorDTO;
+import com.gustavofelix.workshopmongodb.dto.CommentDTO;
 import com.gustavofelix.workshopmongodb.repository.PostRepository;
 import com.gustavofelix.workshopmongodb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.List;
 import java.util.TimeZone;
 
 @Configuration
@@ -43,10 +45,18 @@ public class Instantiation implements CommandLineRunner {
 
         postRepository.saveAll(Arrays.asList(post1, post2));
 
-        maria.getPosts().add(post1);
-        maria.getPosts().add(post2);
+        maria.getPosts().addAll(Arrays.asList(post1, post2));
 
         userRepository.save(maria);
+
+        CommentDTO comment1 = new CommentDTO("Boa viagem mano!", format.parse("21/03/2018").toInstant(), new AuthorDTO(alex));
+        CommentDTO comment2 = new CommentDTO("Aproveite!", format.parse("22/03/2018").toInstant(), new AuthorDTO(bob));
+        CommentDTO comment3 = new CommentDTO("Tenha um ótimo dia!", format.parse("23/03/2018").toInstant(), new AuthorDTO(alex));
+
+        post1.getComments().addAll(Arrays.asList(comment1, comment2));
+        post2.getComments().add(comment3);
+
+        postRepository.saveAll(Arrays.asList(post1, post2));
 
     }
 
