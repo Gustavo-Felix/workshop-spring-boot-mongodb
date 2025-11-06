@@ -2,6 +2,7 @@ package com.gustavofelix.workshopmongodb.config;
 
 import com.gustavofelix.workshopmongodb.domain.Post;
 import com.gustavofelix.workshopmongodb.domain.User;
+import com.gustavofelix.workshopmongodb.dto.AuthorDTO;
 import com.gustavofelix.workshopmongodb.repository.PostRepository;
 import com.gustavofelix.workshopmongodb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ public class Instantiation implements CommandLineRunner {
 
         postRepository.deleteAll();
 
-        Post post1 = new Post(null, format.parse("21/03/2018").toInstant(), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", maria);
-        Post post2 = new Post(null, format.parse("23/03/2018").toInstant(), "Bom dia", "Acordei feliz hoje!", maria);
+        Post post1 = new Post(null, format.parse("21/03/2018").toInstant(), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", new AuthorDTO(maria));
+        Post post2 = new Post(null, format.parse("23/03/2018").toInstant(), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(maria));
 
         postRepository.saveAll(Arrays.asList(post1, post2));
 
