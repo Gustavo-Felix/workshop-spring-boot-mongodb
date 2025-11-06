@@ -1,6 +1,7 @@
 package com.gustavofelix.workshopmongodb.resources;
 
 
+import com.gustavofelix.workshopmongodb.domain.Post;
 import com.gustavofelix.workshopmongodb.domain.User;
 import com.gustavofelix.workshopmongodb.dto.UserDTO;
 import com.gustavofelix.workshopmongodb.services.UserService;
@@ -63,5 +64,10 @@ public class UserResource {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
+    }
 
 }
